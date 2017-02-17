@@ -17,7 +17,7 @@ namespace Server
         public void Execute()
         {
             enableNetworking();
-
+            startServer();
             // недаём сборщику мусора освободить память
             Thread.Sleep(-1);
         }
@@ -79,10 +79,24 @@ namespace Server
 
         private byte[] ProcessRequestData(byte[] requestData)
         {
-            String requestDataString = new string(Encoding.UTF8.GetChars(requestData));
-            Debug.Print("Server received: '" + requestDataString + "'");
+            //String requestDataString = new string(Encoding.UTF8.GetChars(requestData));
+            String bytesString = "";
+            int responseInt;
+            for (int i = 0; i < requestData.Length; i++) {
+                bytesString += requestData[i].ToString() + " , ";
 
-            byte[] response = Encoding.UTF8.GetBytes("Hello client!");
+
+            }
+            Debug.Print("Server received: "+ bytesString);
+            if (requestData[0] == 1) {
+                responseInt = requestData[1] + requestData[2];
+                else
+                                responseInt = requestData[1] - requestData[2];
+
+
+            }
+            //cont
+            byte[] response =new byte[] {4};
             return response;
         }
 
@@ -105,6 +119,7 @@ namespace Server
 
         public static void Main()
         {
+            Debug.Print("main started " );
             new Program().Execute();
         }
 

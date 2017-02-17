@@ -14,6 +14,8 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            Debug.Print("klients main");
+
             Program p = new Program();
             p.RunClient();
         }
@@ -55,14 +57,25 @@ namespace Client
             {
                 byte[] response = new byte[client.Available];
                 client.Receive(response,response.Length,SocketFlags.None);
-                String responseString = new String(Encoding.UTF8.GetChars(response));
+                String responseString = "";
+                for (int i = 0; i < response.Length; i++)
+                {
+                    responseString += response[i].ToString() + " ";
+                }
                 Debug.Print("Atbilde no servera: "+responseString);
             }
         }
 
         private void SendRequestToServer(Socket client)
         {
-            byte[] dataToSend = Encoding.UTF8.GetBytes("Hello server!");
+            Random r = new Random();
+
+            byte[] dataToSend = new byte[3];
+            dataToSend[0] = (byte)r.Next(2);
+            dataToSend[0]++;
+            dataToSend[1] = (byte)r.Next(101);
+            dataToSend[2] = (byte)r.Next(101);
+
             client.Send(dataToSend);
         }
     }

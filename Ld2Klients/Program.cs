@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using static ByteOperations;
 namespace Client
 {
     class Program
@@ -15,10 +15,14 @@ namespace Client
         static void Main(string[] args)
         {
             Debug.Print("klients main");
-
+           
             Program p = new Program();
             p.RunClient();
         }
+
+
+      
+
 
         private void RunClient()
         {
@@ -56,13 +60,13 @@ namespace Client
             if (client.Poll(10 * microSecondsPerSecond, SelectMode.SelectRead) && client.Available > 0)
             {
                 byte[] response = new byte[client.Available];
-                client.Receive(response,response.Length,SocketFlags.None);
+                client.Receive(response, response.Length, SocketFlags.None);
                 String responseString = "";
                 for (int i = 0; i < response.Length; i++)
                 {
                     responseString += response[i].ToString() + " ";
                 }
-                Debug.Print("Atbilde no servera: "+responseString);
+                Debug.Print("Atbilde no servera: " + responseString+" Result is: "+bytesToWord(response[0],response[1]));
             }
         }
 
@@ -75,6 +79,7 @@ namespace Client
             dataToSend[0]++;
             dataToSend[1] = (byte)r.Next(101);
             dataToSend[2] = (byte)r.Next(101);
+            Debug.Print("Sending to Server: " + dataToSend);
 
             client.Send(dataToSend);
         }

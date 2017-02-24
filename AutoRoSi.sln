@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ld3Server", "Ld3Server\Ld3S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ld3Klients", "Ld2Klients\Ld3Klients.csproj", "{1D40CBD2-6BFE-4024-B158-DB5F1EC93EFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteOperations", "ByteOperations\ByteOperations.csproj", "{9937B38D-7E43-4A54-8302-20B19575A08E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{1D40CBD2-6BFE-4024-B158-DB5F1EC93EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D40CBD2-6BFE-4024-B158-DB5F1EC93EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D40CBD2-6BFE-4024-B158-DB5F1EC93EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9937B38D-7E43-4A54-8302-20B19575A08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9937B38D-7E43-4A54-8302-20B19575A08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9937B38D-7E43-4A54-8302-20B19575A08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9937B38D-7E43-4A54-8302-20B19575A08E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

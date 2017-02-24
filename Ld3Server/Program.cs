@@ -7,12 +7,13 @@ using GHIElectronics.NETMF.Net.NetworkInformation;
 using GHIElectronics.NETMF.Net.Sockets;
 using GHIElectronics.NETMF.FEZ;
 using System.Text;
-
 namespace Server
 {
     public class Program
     {
         Thread pingThread;
+
+
 
         public void Execute()
         {
@@ -21,6 +22,7 @@ namespace Server
             // недаём сборщику мусора освободить память
             Thread.Sleep(-1);
         }
+
 
         private void startServer()
         {
@@ -82,21 +84,23 @@ namespace Server
             //String requestDataString = new string(Encoding.UTF8.GetChars(requestData));
             String bytesString = "";
             int responseInt;
-            for (int i = 0; i < requestData.Length; i++) {
+            for (int i = 0; i < requestData.Length; i++)
+            {
                 bytesString += requestData[i].ToString() + " , ";
 
 
             }
-            Debug.Print("Server received: "+ bytesString);
-            if (requestData[0] == 1) {
+            Debug.Print("Server received: " + bytesString);
+            if (requestData[0] == 1)                             //plus operacija
                 responseInt = requestData[1] + requestData[2];
-                else
-                                responseInt = requestData[1] - requestData[2];
+            else                                               // mīnus operācija
+                responseInt = requestData[1] - requestData[2];
 
+            short result = (short)responseInt;
+            Debug.Print("Result is: " + result+" Returning : "+ highByteFromWord(result)+", "+ lowByteFromWord(result));
 
-            }
             //cont
-            byte[] response =new byte[] {4};
+            byte[] response = new byte[] { highByteFromWord(result),lowByteFromWord(result) };
             return response;
         }
 
@@ -116,10 +120,21 @@ namespace Server
 
             NetworkInterface.EnableStaticIP(ipAddress, netmask, gateway, macAddress);
         }
+        public static byte highByteFromWord(short word)
+        {
 
+            byte highByte = (byte)(word >> 8);
+            return highByte;
+        }
+        public static byte lowByteFromWord(short word)
+        {
+
+            byte lowByte = (byte)(word & 0xFF);
+            return lowByte;
+        }
         public static void Main()
         {
-            Debug.Print("main started " );
+            Debug.Print("main started ");
             new Program().Execute();
         }
 

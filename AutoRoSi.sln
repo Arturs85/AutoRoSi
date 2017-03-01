@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ld3Klients", "Ld2Klients\Ld
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteOperations", "ByteOperations\ByteOperations.csproj", "{9937B38D-7E43-4A54-8302-20B19575A08E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LedHtmlServer", "LedHtmlServer\LedHtmlServer.csproj", "{260A5EB8-08D5-42B3-A665-F907666A0A54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,12 @@ Global
 		{9937B38D-7E43-4A54-8302-20B19575A08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9937B38D-7E43-4A54-8302-20B19575A08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9937B38D-7E43-4A54-8302-20B19575A08E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260A5EB8-08D5-42B3-A665-F907666A0A54}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

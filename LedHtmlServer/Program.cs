@@ -12,8 +12,24 @@ namespace Server
 {
     public class Program
     {
+
+
+
         Thread serverThread;
         private bool isLedLit = false;
+        private static OutputPort led;
+
+
+        public  void Setup()
+        {
+            // Izveido ieejas portu uz norâdîtâs CPU kâjas 
+           
+
+            led = new OutputPort(
+                (Cpu.Pin)FEZ_Pin.Digital.LED,
+                false);
+
+        }
 
         private void StartWebServer()
         {
@@ -121,7 +137,7 @@ namespace Server
                 buttonPressed = contentstring.IndexOf("ledBtn") != -1;
             }
 
-            // TODO extract to resources
+            
             String responseString =
                   @"<html>
                     <title>-= LED  =-</title>
@@ -132,13 +148,20 @@ namespace Server
 
             if (buttonPressed)
             {
-                //!++ TODO toggle led
-                responseString += @"<div style=""color:red"">You pressed button one!</div>";
+                // toggle led
+                led.Write(!led.Read());
+                Debug.Print("Button pressed");
+                string ledState;
+                if (led.Read())
+                    ledState = "On";
+                else
+                    ledState = "Off";
+                responseString += @"<div style=""color:red"">Led is "+ledState +"</div>";
             }
 
             responseString += @"
                             <div><input type=""submit"" name=""buttonOne"" value=""Button One :)""/></div>
-                            <div><input type=""submit"" name=""buttonTwo"" value=""Button Two :(""/></div>
+                           
                         </form>
                     </body>
                 </html>";
@@ -180,11 +203,11 @@ namespace Server
                 false);
 
            
-            byte[] ipAddress = new byte[] { 192, 168, 17, 36 };
+            byte[] ipAddress = new byte[] { 192, 168, 17, 41 };
             byte[] netmask = new byte[] { 255, 255, 255, 0 };
             byte[] gateway = new byte[] { 192, 168, 17, 1 };
             // set our own mac address for this device
-            byte[] macAddress = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x36 };
+            byte[] macAddress = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x41 };
 
             NetworkInterface.EnableStaticIP(ipAddress, netmask, gateway, macAddress);
         }
@@ -192,6 +215,7 @@ namespace Server
         public static void Main()
         {
             Program p = new Program();
+            p.Setup();
             p.EnableNetworking();
             p.StartWebServer();
         }

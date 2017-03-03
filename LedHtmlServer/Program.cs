@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using System.Threading;
@@ -14,7 +14,7 @@ namespace Server
     {
 
 
-
+        Thread pingThread;
         Thread serverThread;
         private bool isLedLit = false;
         private static OutputPort led;
@@ -22,7 +22,7 @@ namespace Server
 
         public  void Setup()
         {
-            // Izveido ieejas portu uz nor�d�t�s CPU k�jas 
+            // Izveido ieejas portu uz norādītās CPU kājas 
            
 
             led = new OutputPort(
@@ -50,7 +50,7 @@ namespace Server
                     if (httpContext == null) continue;
 
                     // sagatabot atbildi
-                    byte[] response = this.PrepareResponseV2(httpContext);
+                    byte[] response = this.PrepareResponseV3LED(httpContext);
                     // nosutit atbildi
                     this.SendResponse(httpContext, response);
                 }
@@ -160,7 +160,7 @@ namespace Server
             }
 
             responseString += @"
-                            <div><input type=""submit"" name=""buttonOne"" value=""Button One :)""/></div>
+                            <div><input type=""submit"" name=""ledBtn"" value=""Button One :)""/></div>
                            
                         </form>
                     </body>
@@ -211,12 +211,49 @@ namespace Server
 
             NetworkInterface.EnableStaticIP(ipAddress, netmask, gateway, macAddress);
         }
+        private void Ping()
+        {
+            // target endpoint
+            IPEndPoint routerEndPoint = new IPEndPoint(
+                new IPAddress(new byte[] { 192, 168, 17, 1 }), // ИП роутера
+                80); // http порт
+
+            while (true)
+            {
+                // открываем сокет для передачи информации
+                Socket socket = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Dgram, ProtocolType.Udp);    // UDP
+
+                for (int i = 0; i < 30; i++)
+                {
+                    // шлём роутеру (reouterEndPoint) данные через наш сокет
+                    socket.SendTo(new byte[] { 1 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3, 4 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3, 4, 5 }, routerEndPoint);
+                    Thread.Sleep(100);
+                }
+
+                // закрываем соединение
+                socket.Close();
+                Thread.Sleep(5000);
+            }
+        }
+
+        private void startPing()
+        {
+            // работаем с сетью в отдельном потоке
+            pingThread = new Thread(this.Ping);
+            pingThread.Start();
+        }
 
         public static void Main()
         {
             Program p = new Program();
             p.Setup();
             p.EnableNetworking();
+            p.startPing();
             p.StartWebServer();
         }
 

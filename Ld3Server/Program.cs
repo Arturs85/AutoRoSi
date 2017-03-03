@@ -18,8 +18,11 @@ namespace Server
         public void Execute()
         {
             enableNetworking();
+            startPing();
             startServer();
+            
             // недаём сборщику мусора освободить память
+
             Thread.Sleep(-1);
         }
 
@@ -132,6 +135,46 @@ namespace Server
             byte lowByte = (byte)(word & 0xFF);
             return lowByte;
         }
+
+
+        private void Ping()
+        {
+            // target endpoint
+            IPEndPoint routerEndPoint = new IPEndPoint(
+                new IPAddress(new byte[] { 192, 168, 17, 1 }), // ИП роутера
+                80); // http порт
+
+            while (true)
+            {
+                // открываем сокет для передачи информации
+                Socket socket = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Dgram, ProtocolType.Udp);    // UDP
+
+                for (int i = 0; i < 30; i++)
+                {
+                    // шлём роутеру (reouterEndPoint) данные через наш сокет
+                    socket.SendTo(new byte[] { 1 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3, 4 }, routerEndPoint);
+                    socket.SendTo(new byte[] { 1, 2, 3, 4, 5 }, routerEndPoint);
+                    Thread.Sleep(100);
+                }
+
+                // закрываем соединение
+                socket.Close();
+                Thread.Sleep(5000);
+            }
+        }
+
+        private void startPing()
+        {
+            // работаем с сетью в отдельном потоке
+            pingThread = new Thread(this.Ping);
+            pingThread.Start();
+        }
+
+
         public static void Main()
         {
             Debug.Print("main started ");

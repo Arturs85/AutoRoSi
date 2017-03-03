@@ -79,7 +79,7 @@ namespace Client
             dataToSend[0]++;
             dataToSend[1] = (byte)r.Next(101);
             dataToSend[2] = (byte)r.Next(101);
-            Debug.Print("Sending to Server: " + dataToSend);
+            Debug.Print("Sending to Server: " + "darbiba: "+dataToSend[0]+" x= " +dataToSend[1]+" y="+dataToSend[2]);
 
             client.Send(dataToSend);
         }

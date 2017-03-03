@@ -26,7 +26,7 @@ namespace ButtonClicker
             // Izveido ieejas portu uz norâdîtâs CPU kâjas 
             button = new InputPort(
                 (Cpu.Pin)FEZ_Pin.Digital.LDR,   // LDR - Loader
-                false, // Trokðòu filtrs: false -> izslçgts, true -> ieslçgts 
+                true, // Trokðòu filtrs: false -> izslçgts, true -> ieslçgts 
                 Port.ResistorMode.PullUp); // Uzstâdît kâju uz high, kad nekas nav pievienots 
 
             led = new OutputPort(
@@ -45,9 +45,9 @@ namespace ButtonClicker
 
                 led.Write(!led.Read());
                 Debug.Print("Button pressed");
+                Thread.Sleep(200);
 
             }
-            Thread.Sleep(100);
         }
 
         

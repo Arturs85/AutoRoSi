@@ -1,6 +1,7 @@
 using System;
 using Microsoft.SPOT;
 using System.IO.Ports;
+using System.Threading;
 
 namespace RoombaServer
 {
@@ -20,7 +21,7 @@ namespace RoombaServer
             lock (readWriteLock) {
                 Open();
                 serialPort.Write(dataToWrite, 0, dataToWrite.Length);
-               // Thread.Sleep(50);
+                Thread.Sleep(50);
             }
         }
   public byte[] Read(int bytesToRead) {

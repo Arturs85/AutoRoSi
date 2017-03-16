@@ -26,7 +26,7 @@ namespace RoombaServer
             return (short)word;
         }
 
-
+        
 
     }
 }

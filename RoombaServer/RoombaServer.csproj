@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="RoombaComandExecutor.cs" />
     <Compile Include="RoombaController.cs" />
+    <Compile Include="SensorPacketQuerier.cs" />
     <Compile Include="SerialPortController.cs" />
   </ItemGroup>
   <ItemGroup>

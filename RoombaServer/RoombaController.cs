@@ -38,6 +38,15 @@ namespace RoombaServer
         private void SendWakeupSignal() {
             wakeupSignalPort.Write(false);
             Thread.Sleep(500);
-            wakeupSignalPort.Write(true);        }
+            wakeupSignalPort.Write(true);
+        }
+
+        public void SubscribeToSensorPacket(SensorPacket sensorPacket, int sensorPacketsize, int frequency,
+            SensorPacketQuerier.SensorDataRecievedDelegate dataRecievedDelegate)
+        {
+            SensorPacketQuerier querier = new SensorPacketQuerier(comandExecutor, sensorPacket, sensorPacketsize, frequency);
+            querier.SensorDataRecieved += dataRecievedDelegate;
+            querier.Start();
+        }
     }
 }

@@ -11,8 +11,18 @@ namespace RoombaServer
         FullControl = 132,
         PoverOff = 133,
         Drive = 137,
-        DigitLedsASCII = 164
+        DigitLedsASCII = 164,
+QuerrySensorPacket = 142
+
+    };
+    public enum SensorPacket {
+        BumpsWheeldrops = 7,
+        BatteryCharge = 25
 
 
     };
+
+
+
+
 }

@@ -6,6 +6,7 @@ namespace RoombaServer
     class RoombaComandExecutor
     {
         SerialPortController serialPortController;
+        private static Object querrySensorLock = new object();
         public RoombaComandExecutor(SerialPortController serialPort)
         {
             serialPortController = serialPort;
@@ -54,5 +55,16 @@ namespace RoombaServer
         {
             Drive(0, 0);
         }
+
+        public byte[] QuerrySensorPacket(SensorPacket sensorPacket, int packetSize) {
+            byte[] parameters = new byte[] { (byte)sensorPacket };
+            lock (querrySensorLock) {
+                ExecComand(RoombaComand.QuerrySensorPacket, parameters);
+                return serialPortController.Read(packetSize);
+
+            } 
+
+        }
+
     }
 }

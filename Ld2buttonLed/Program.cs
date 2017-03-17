@@ -19,7 +19,7 @@ namespace ButtonClicker
         }
         private static InputPort button;
         private static OutputPort led;
-
+        static bool poll = true;
 
         public static void Setup()
         {
@@ -40,14 +40,20 @@ namespace ButtonClicker
             // Nolasît kâjas stâvokli : -true, high, false -> low Kad LDR poga ir nospiesta (jo ir pull-up mode),
             // tâ savieno LDR kâju ar zemi, iestatot to uz low. 
             bool buttonPressed = !button.Read();
-            if (buttonPressed)
+
+            if (buttonPressed && poll)
             {
 
                 led.Write(!led.Read());
+                poll = false;
                 Debug.Print("Button pressed");
                 Thread.Sleep(200);
 
             }
+            if (!buttonPressed) {
+                poll = true;
+            }
+
         }
 
         

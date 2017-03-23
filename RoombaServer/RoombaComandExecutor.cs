@@ -65,6 +65,22 @@ namespace RoombaServer
             } 
 
         }
+        public void ShowDigitsASCII(String value) {
+            if (value == null) return;
+            byte[] parameters = new byte[4];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (i <= value.Length - 1)
+                {
+                    parameters[i] = (byte)value[i];
+                }
+                else
+                    parameters[i] = 32;
+            }
+            ExecComand(RoombaComand.DigitLedsASCII, parameters);
+        }
+
+
 
     }
 }

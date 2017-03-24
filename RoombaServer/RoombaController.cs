@@ -25,8 +25,11 @@ namespace RoombaServer
         public void Start() {
             SendWakeupSignal();
             comandExecutor.ExecComand(RoombaComand.Start);
+            Thread.Sleep(50);
             comandExecutor.ExecComand(RoombaComand.Control);
+            Thread.Sleep(50);
             comandExecutor.ExecComand(RoombaComand.FullControl);
+            Thread.Sleep(50);
 
         }
         public void TurnOff()

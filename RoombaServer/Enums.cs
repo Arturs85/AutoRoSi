@@ -17,8 +17,8 @@ QuerrySensorPacket = 142
     };
     public enum SensorPacket {
         BumpsWheeldrops = 7,
-        BatteryCharge = 25
-
+        BatteryCharge = 25,
+BatteryCapacity =26
 
     };
 

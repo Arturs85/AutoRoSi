@@ -38,6 +38,8 @@ namespace RoombaServer
             while (true) {
                 Thread.Sleep(100);
 
+                if (controller.Sensors.IsBump)
+                    colisionCount++;
                 if (colisionCount == 1) {
                     {
 
@@ -106,7 +108,7 @@ namespace RoombaServer
             if (buttonNumber == ButtonNumber.StartTask)
             {
                 startController();
-                TestSensors();
+              //  TestSensors();
                 driveSense();
 
             }

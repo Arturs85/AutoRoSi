@@ -17,11 +17,15 @@ using RoombaServer.Roomba.Sensors;
         public RoombaComandExecutor CommandExecutor {
             get { return this.comandExecutor; }
         }
+        public SensorController Sensors {
+            get;
+            private set;
+        }
         public RoombaController() {
             this.serialPortController = new SerialPortController(SREIAL_PORT_NAME, SREIAL_PORT_BAUD_RATE);
             comandExecutor = new RoombaComandExecutor(serialPortController);
             wakeupSignalPort = new OutputPort((Cpu.Pin)FEZ_Pin.Digital.Di47, true);
-
+            Sensors = new SensorController(this);
         }
         public void Start() {
             SendWakeupSignal();
@@ -31,7 +35,7 @@ using RoombaServer.Roomba.Sensors;
             Thread.Sleep(50);
             comandExecutor.ExecComand(RoombaComand.FullControl);
             Thread.Sleep(50);
-
+            Sensors.StartSensors();
         }
         public void TurnOff()
         {

@@ -1,16 +1,17 @@
 using System;
-using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using GHIElectronics.NETMF.FEZ;
 using System.Threading;
-namespace RoombaServer
+using RoombaServer.Roomba.Sensors;
+
+ namespace RoombaServer.Roomba
 {
-    class RoombaController
+   public class RoombaController
     {
         private const String SREIAL_PORT_NAME = "COM2";
         private const int SREIAL_PORT_BAUD_RATE = 115200;
         private SerialPortController serialPortController;
-        private RoombaComandExecutor comandExecutor;
+        public RoombaComandExecutor comandExecutor;
         private OutputPort wakeupSignalPort;
 
         public RoombaComandExecutor CommandExecutor {
@@ -44,7 +45,7 @@ namespace RoombaServer
             wakeupSignalPort.Write(true);
         }
 
-        public void SubscribeToSensorPacket(SensorPacket sensorPacket, int sensorPacketsize, int frequency,
+       public  void SubscribeToSensorPacket(SensorPacket sensorPacket, int sensorPacketsize, int frequency,
             SensorPacketQuerier.SensorDataRecievedDelegate dataRecievedDelegate)
         {
             SensorPacketQuerier querier = new SensorPacketQuerier(comandExecutor, sensorPacket, sensorPacketsize, frequency);

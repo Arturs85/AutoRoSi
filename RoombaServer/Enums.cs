@@ -21,7 +21,12 @@ QuerrySensorPacket = 142
 BatteryCapacity =26
 
     };
-
+    public enum ButtonNumber
+    {
+        ShutDown = 1,
+        StartTask = 2
+       
+    };
 
 
 

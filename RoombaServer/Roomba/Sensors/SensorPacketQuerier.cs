@@ -2,9 +2,9 @@ using System;
 using Microsoft.SPOT;
 using System.Threading;
 
-namespace RoombaServer
+namespace RoombaServer.Roomba.Sensors
 {
-    class SensorPacketQuerier
+   public class SensorPacketQuerier
     {
         private RoombaComandExecutor comandExecutor;
         private SensorPacket sensorPacket;

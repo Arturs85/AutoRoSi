@@ -1,18 +1,22 @@
 using System;
 using Microsoft.SPOT;
 using System.Threading;
-
+using RoombaServer.Roomba;
+using RoombaServer.Networking;
 namespace RoombaServer
 {
     public class Program
     {
         RoombaController controller;
+        WebServer webServer;
         byte colisionCount=0;
         short capacity=1;
         short charge = 1;
         Program() {
-          //  controller = new RoombaController();
-           // controller.Start();
+            //  controller = new RoombaController();
+            // controller.Start();
+            webServer = new WebServer();
+            webServer.SubscribeToButtonInput(HttpButtonClicked);
         }
 
         public static void Main()
@@ -22,7 +26,7 @@ namespace RoombaServer
             Program p = new Program();
           
                        p.TestSensors();
- p.driveSense();
+ //p.driveSense();
            // p.TestDriving();
 
         }
@@ -76,8 +80,7 @@ namespace RoombaServer
         }
         private void TestSensors() {
             //controller.Start();
-            controller = new RoombaController();
-            controller.Start();
+            
             // controller.CommandExecutor.ExecComand(RoombaComand.Safe);
             controller.SubscribeToSensorPacket(SensorPacket.BatteryCharge, 2, 2000, BatteryChargeRecieved);
             controller.SubscribeToSensorPacket(SensorPacket.BatteryCapacity , 2, 1000, BatteryCapacityRecieved);
@@ -87,15 +90,42 @@ namespace RoombaServer
             //Thread.Sleep(-1);
 
         }
+        private void startController()
+        {
+
+            if (controller == null)
+            {
+                controller = new RoombaController();
+            }
+                controller.Start();
+        
+        }
+
+        private void HttpButtonClicked(ButtonNumber buttonNumber) {
+            Debug.Print("MainProgram--- User clicked : " + buttonNumber);
+            if (buttonNumber == ButtonNumber.StartTask)
+            {
+                startController();
+                TestSensors();
+                driveSense();
+
+            }
+            if(buttonNumber==ButtonNumber.ShutDown && controller!=null)
+            {
+                controller.CommandExecutor.Stop();
+                controller.TurnOff();
+            }
+
+        }
         private void BatteryChargeRecieved(short sensorData) {
-            Debug.Print("Battery capacity: " + sensorData);
+           // Debug.Print("Battery capacity: " + sensorData);
             charge = sensorData;
           //  controller.CommandExecutor.ShowDigitsASCII("123");
            
         }
         private void BatteryCapacityRecieved(short sensorData)
         {
-            Debug.Print("Battery charge: " + sensorData);
+            //Debug.Print("Battery charge: " + sensorData);
             capacity = sensorData;
             //  controller.CommandExecutor.ShowDigitsASCII("123");
             controller.CommandExecutor.ShowDigitsASCII((100*charge/capacity).ToString());
@@ -106,8 +136,8 @@ namespace RoombaServer
             byte bumpLeft = 1 << 1;
             bool isBumpLeft = (sensorData & bumpLeft) != 0;
             bool isBumpRight = (sensorData & bumpRight) != 0;
-            Debug.Print("Bumps Wheeldrops-> bumpLeft: " + isBumpLeft + ", bump right " + isBumpRight);
-            Debug.Print("colision count: " + colisionCount);
+           // Debug.Print("Bumps Wheeldrops-> bumpLeft: " + isBumpLeft + ", bump right " + isBumpRight);
+          //  Debug.Print("colision count: " + colisionCount);
 
             if (isBumpLeft || isBumpRight)
             {

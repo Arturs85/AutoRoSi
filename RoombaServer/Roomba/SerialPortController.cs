@@ -3,9 +3,9 @@ using Microsoft.SPOT;
 using System.IO.Ports;
 using System.Threading;
 
-namespace RoombaServer
+namespace RoombaServer.Roomba
 {
-    class SerialPortController
+   public class SerialPortController
     {
         private SerialPort serialPort;
         private static Object readWriteLock = new object();

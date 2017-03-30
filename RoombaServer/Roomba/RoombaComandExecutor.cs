@@ -1,9 +1,9 @@
 using System;
 using Microsoft.SPOT;
 
-namespace RoombaServer
+namespace RoombaServer.Roomba
 {
-    class RoombaComandExecutor
+   public class RoombaComandExecutor
     {
         SerialPortController serialPortController;
         private static Object querrySensorLock = new object();

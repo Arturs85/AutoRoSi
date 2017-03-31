@@ -9,6 +9,7 @@ namespace RoombaServer
     {
         RoombaController controller;
         WebServer webServer;
+        Thread driveSenseThread;
         byte colisionCount=0;
         short capacity=1;
         short charge = 1;
@@ -24,11 +25,14 @@ namespace RoombaServer
             
 
             Program p = new Program();
-          
-                       p.TestSensors();
- //p.driveSense();
-           // p.TestDriving();
 
+            //  p.TestSensors();
+            //p.driveSense();
+            // p.TestDriving();
+            while (true)
+            {
+                Thread.Sleep(100);
+            }
         }
 
         void driveSense() {
@@ -37,6 +41,7 @@ namespace RoombaServer
             controller.CommandExecutor.DriveStraight(300);
             while (true) {
                 Thread.Sleep(100);
+                Debug.Print("colision count : " + colisionCount);
 
                 if (controller.Sensors.IsBump)
                     colisionCount++;
@@ -58,8 +63,9 @@ namespace RoombaServer
  if (colisionCount > 2) {
                         controller.CommandExecutor.Stop();
                         controller.TurnOff();
+                    controller = null;
 
-                    }
+                }
 
             }
 
@@ -78,20 +84,20 @@ namespace RoombaServer
             Thread.Sleep(1800);
             controller.CommandExecutor.Stop();
             controller.TurnOff();
-
+            controller = null;
         }
-        private void TestSensors() {
-            //controller.Start();
+        //private void TestSensors() {
+        //    //controller.Start();
             
-            // controller.CommandExecutor.ExecComand(RoombaComand.Safe);
-            controller.SubscribeToSensorPacket(SensorPacket.BatteryCharge, 2, 2000, BatteryChargeRecieved);
-            controller.SubscribeToSensorPacket(SensorPacket.BatteryCapacity , 2, 1000, BatteryCapacityRecieved);
+        //    // controller.CommandExecutor.ExecComand(RoombaComand.Safe);
+        //    controller.SubscribeToSensorPacket(SensorPacket.BatteryCharge, 2, 2000, BatteryChargeRecieved);
+        //    controller.SubscribeToSensorPacket(SensorPacket.BatteryCapacity , 2, 1000, BatteryCapacityRecieved);
 
-            controller.SubscribeToSensorPacket(SensorPacket.BumpsWheeldrops, 1, 200, BumpsWheeldropsRecieved);
+        //    controller.SubscribeToSensorPacket(SensorPacket.BumpsWheeldrops, 1, 200, BumpsWheeldropsRecieved);
 
-            //Thread.Sleep(-1);
+        //    //Thread.Sleep(-1);
 
-        }
+        //}
         private void startController()
         {
 
@@ -107,15 +113,19 @@ namespace RoombaServer
             Debug.Print("MainProgram--- User clicked : " + buttonNumber);
             if (buttonNumber == ButtonNumber.StartTask)
             {
+                colisionCount = 0;
                 startController();
-              //  TestSensors();
-                driveSense();
-
+                //  TestSensors();
+                driveSenseThread = new Thread(driveSense);
+               
+                driveSenseThread.Start();
             }
             if(buttonNumber==ButtonNumber.ShutDown && controller!=null)
             {
                 controller.CommandExecutor.Stop();
                 controller.TurnOff();
+                colisionCount = 0;
+
             }
 
         }

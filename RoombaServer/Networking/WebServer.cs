@@ -200,13 +200,20 @@ namespace RoombaServer.Networking
             pingThread.Start();
         }
 
+        private void startServerThread()
+        {
+            // ???????? ? ????? ? ????????? ??????
+            serverThread = new Thread(StartWebServer);
+            serverThread.Start();
+        }
+
         public  void Start()
         {
            
             Setup();
             EnableNetworking();
             startPing();
-            StartWebServer();
+            startServerThread();
         }
         public void SubscribeToButtonInput(ClientInputRecievedDelegate inputRecievedDelegate)
         {

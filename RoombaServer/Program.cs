@@ -3,6 +3,8 @@ using Microsoft.SPOT;
 using System.Threading;
 using RoombaServer.Roomba;
 using RoombaServer.Networking;
+using RoombaServer.Tasks;
+
 namespace RoombaServer
 {
     public class Program
@@ -10,14 +12,20 @@ namespace RoombaServer
         RoombaController controller;
         WebServer webServer;
         Thread driveSenseThread;
+        private Task currentTask;
         byte colisionCount=0;
         short capacity=1;
         short charge = 1;
+        bool driveThreadisRunning = false;
+Random rnd = new Random();
         Program() {
             //  controller = new RoombaController();
             // controller.Start();
             webServer = new WebServer();
             webServer.SubscribeToButtonInput(HttpButtonClicked);
+            
+
+
         }
 
         public static void Main()
@@ -39,28 +47,28 @@ namespace RoombaServer
             // controller = new RoombaController();
          //   controller.Start();
             controller.CommandExecutor.DriveStraight(300);
-            while (true) {
+            while (driveThreadisRunning) {
                 Thread.Sleep(100);
                 Debug.Print("colision count : " + colisionCount);
 
                 if (controller.Sensors.IsBump)
-                    colisionCount++;
-                if (colisionCount == 1) {
+                    
                     {
 
                         controller.CommandExecutor.Stop();
                         Thread.Sleep(100);
                         controller.CommandExecutor.DriveStraight(-100);
                         Thread.Sleep(500);
+                    int turningTime = rnd.Next(1500)+300;
 
                         controller.CommandExecutor.TurnRight(200);
-                        Thread.Sleep(1800);
+                        Thread.Sleep(turningTime);
                         controller.CommandExecutor.DriveStraight(200);
                         colisionCount++;
-                    }
+                    
                    
                 }
- if (colisionCount > 2) {
+ if (colisionCount > 5) {
                         controller.CommandExecutor.Stop();
                         controller.TurnOff();
                     controller = null;
@@ -70,22 +78,7 @@ namespace RoombaServer
             }
 
         }
-        private void TestDriving() {
-           //controller = new RoombaController();
-           // controller.Start();
-            controller.CommandExecutor.DriveStraight(300);
-            Thread.Sleep(5000);
-
-            controller.CommandExecutor.TurnLeft(200);
-            Thread.Sleep(1800);
-            controller.CommandExecutor.DriveStraight(300);
-            Thread.Sleep(5000);
-            controller.CommandExecutor.TurnRight(200);
-            Thread.Sleep(1800);
-            controller.CommandExecutor.Stop();
-            controller.TurnOff();
-            controller = null;
-        }
+      
         //private void TestSensors() {
         //    //controller.Start();
             
@@ -111,21 +104,26 @@ namespace RoombaServer
 
         private void HttpButtonClicked(ButtonNumber buttonNumber) {
             Debug.Print("MainProgram--- User clicked : " + buttonNumber);
-            if (buttonNumber == ButtonNumber.StartTask)
+            if (buttonNumber == ButtonNumber.StartTask && !driveThreadisRunning)
             {
+                //webServer_StartButtonPressed();
                 colisionCount = 0;
+                driveThreadisRunning = true;
                 startController();
-                //  TestSensors();
+               
                 driveSenseThread = new Thread(driveSense);
                
                 driveSenseThread.Start();
             }
             if(buttonNumber==ButtonNumber.ShutDown && controller!=null)
             {
+
+                //StopCurrentTask();
                 controller.CommandExecutor.Stop();
                 controller.TurnOff();
+                driveThreadisRunning = false;
                 colisionCount = 0;
-
+                controller = null;
             }
 
         }
@@ -157,6 +155,18 @@ namespace RoombaServer
                 Thread.Sleep(1000);
 
             }
+        }
+        private void webServer_StartButtonPressed()
+        {
+            StopCurrentTask();
+            currentTask = new TaskWander(controller);
+            currentTask.Start();
+
+        }
+        private void StopCurrentTask()
+        {
+            if (currentTask != null)
+                currentTask.Stop();
         }
     }
 

@@ -26,7 +26,24 @@ namespace RoombaServer
             return (short)word;
         }
 
-        
+        public static void GetByteArrayFromInt(int value, byte[] destinationArray, int startPos)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                destinationArray[startPos + i] = (byte)(value >> (8 * i));
+            }
+        }
+
+        public static int GetIntFromByteArray(byte[] sourceArray, int startPos)
+        {
+            int result = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                result |= sourceArray[startPos + i] << (i * 8);
+            }
+            return result;
+        }
 
     }
 }

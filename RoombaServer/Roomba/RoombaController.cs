@@ -3,8 +3,9 @@ using Microsoft.SPOT.Hardware;
 using GHIElectronics.NETMF.FEZ;
 using System.Threading;
 using RoombaServer.Roomba.Sensors;
+using Microsoft.SPOT;
 
- namespace RoombaServer.Roomba
+namespace RoombaServer.Roomba
 {
    public class RoombaController
     {
@@ -36,6 +37,7 @@ using RoombaServer.Roomba.Sensors;
             comandExecutor.ExecComand(RoombaComand.FullControl);
             Thread.Sleep(50);
             Sensors.StartSensors();
+            Debug.Print("comand exec. Started ");
         }
         public void TurnOff()
         {

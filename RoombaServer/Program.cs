@@ -19,8 +19,8 @@ namespace RoombaServer
         bool driveThreadisRunning = false;
 Random rnd = new Random();
         Program() {
-            //  controller = new RoombaController();
-            // controller.Start();
+             controller = new RoombaController();
+            controller.Start();
             webServer = new WebServer();
             webServer.SubscribeToButtonInput(HttpButtonClicked);
             
@@ -70,60 +70,69 @@ Random rnd = new Random();
                 }
  if (colisionCount > 5) {
                         controller.CommandExecutor.Stop();
-                        controller.TurnOff();
-                    controller = null;
+                      //  controller.TurnOff();
+                    //controller = null;
 
                 }
 
             }
 
         }
-      
-        //private void TestSensors() {
-        //    //controller.Start();
-            
-        //    // controller.CommandExecutor.ExecComand(RoombaComand.Safe);
-        //    controller.SubscribeToSensorPacket(SensorPacket.BatteryCharge, 2, 2000, BatteryChargeRecieved);
-        //    controller.SubscribeToSensorPacket(SensorPacket.BatteryCapacity , 2, 1000, BatteryCapacityRecieved);
 
-        //    controller.SubscribeToSensorPacket(SensorPacket.BumpsWheeldrops, 1, 200, BumpsWheeldropsRecieved);
+        private void TestSensors()
+        {
+            controller.Start();
 
-        //    //Thread.Sleep(-1);
+            controller.CommandExecutor.ExecComand(RoombaComand.Safe);
+            controller.SubscribeToSensorPacket(SensorPacket.BatteryCharge, 2, 2000, BatteryChargeRecieved);
+            controller.SubscribeToSensorPacket(SensorPacket.BatteryCapacity, 2, 1000, BatteryCapacityRecieved);
 
-        //}
+            controller.SubscribeToSensorPacket(SensorPacket.BumpsWheeldrops, 1, 200, BumpsWheeldropsRecieved);
+
+            //Thread.Sleep(-1);
+
+        }
         private void startController()
         {
 
             if (controller == null)
             {
                 controller = new RoombaController();
-            }
+
                 controller.Start();
-        
+            }
         }
 
         private void HttpButtonClicked(ButtonNumber buttonNumber) {
+
             Debug.Print("MainProgram--- User clicked : " + buttonNumber);
-            if (buttonNumber == ButtonNumber.StartTask && !driveThreadisRunning)
+
+            if (buttonNumber == ButtonNumber.StartTask)
             {
-                //webServer_StartButtonPressed();
-                colisionCount = 0;
-                driveThreadisRunning = true;
-                startController();
+                webServer_StartButtonPressed();
+            Debug.Print("MainProgram---|Start event: " + buttonNumber);
+
+              //  colisionCount = 0;
+               // driveThreadisRunning = true;
+               // startController();
                
-                driveSenseThread = new Thread(driveSense);
+                //driveSenseThread = new Thread(driveSense);
                
-                driveSenseThread.Start();
+              //  driveSenseThread.Start();
             }
             if(buttonNumber==ButtonNumber.ShutDown && controller!=null)
             {
 
-                //StopCurrentTask();
-                controller.CommandExecutor.Stop();
-                controller.TurnOff();
-                driveThreadisRunning = false;
-                colisionCount = 0;
-                controller = null;
+                StopCurrentTask();
+                Debug.Print("MainProgram---|Stop event: " + buttonNumber);
+
+
+//                driveThreadisRunning = false;
+  //              driveSenseThread.Abort();
+    //            controller.CommandExecutor.Stop();
+               // //controller.TurnOff();
+      //          colisionCount = 0;
+               //// controller = null;
             }
 
         }

@@ -54,6 +54,8 @@ namespace RoombaServer.Roomba.Sensors
                 BatteryPercentage = 100 * batteryCharge / sensorData;
             else
                 BatteryPercentage = 0;
+            Debug.Print("Battery charge: " + BatteryPercentage.ToString());
+
             roombaController.CommandExecutor.ShowDigitsASCII(BatteryPercentage.ToString());
         }
     }

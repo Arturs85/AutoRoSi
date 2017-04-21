@@ -11,6 +11,11 @@ namespace RoombaServer.Networking
   public  class NetworkManager
     {
 
+
+        public void Start()
+        {
+            InitNetworking();
+        }
         private void InitNetworking()
         {
             WIZnet_W5100.Enable(SPI.SPI_module.SPI1, (Cpu.Pin)FEZ_Pin.Digital.Di10, (Cpu.Pin)FEZ_Pin.Digital.Di7, false);

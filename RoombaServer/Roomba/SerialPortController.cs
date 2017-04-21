@@ -33,9 +33,16 @@ namespace RoombaServer.Roomba
             lock (readWriteLock)
             {
                 Open();
-                byte[] data = new byte[bytesToRead];
-                serialPort.Read(data, 0, data.Length);
-                return data;
+                int offset = 0;
+                int bytesRead = 0;
+                    byte[] data = new byte[bytesToRead];
+
+                while (offset < bytesToRead)
+                {
+                   bytesRead =  serialPort.Read(data, offset, data.Length-offset);
+                    offset += bytesRead;
+                }
+                    return data;
             }
         }
         public void Close()

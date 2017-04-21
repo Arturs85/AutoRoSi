@@ -80,6 +80,16 @@ namespace RoombaServer.Roomba
             ExecComand(RoombaComand.DigitLedsASCII, parameters);
         }
 
+        public void DriveWheels(short rightWheelSpeed, short leftWheelSpeed) //not tested
+        {
+            byte[] parameters = {
+                Common.highByteFromWord(rightWheelSpeed),
+            Common.lowByteFromWord(rightWheelSpeed),
+            Common.highByteFromWord(leftWheelSpeed),
+            Common.lowByteFromWord(leftWheelSpeed)
+            };
+            ExecComand(RoombaComand.DriveWheels, parameters);
+        }
 
 
     }

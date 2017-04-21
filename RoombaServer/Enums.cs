@@ -12,8 +12,8 @@ namespace RoombaServer
         PoverOff = 133,
         Drive = 137,
         DigitLedsASCII = 164,
-QuerrySensorPacket = 142
-
+QuerrySensorPacket = 142,
+DriveWheels = 145
     };
     public enum SensorPacket {
         BumpsWheeldrops = 7,
@@ -27,7 +27,15 @@ BatteryCapacity =26
         StartTask = 2
        
     };
+    public enum RemoteCommandType
+    {
+        Drive = 1,
+        ResetLocation = 2,
+        Wander = 3,
+        StopCurrentTask = 254,
+        SpecialTask = 255
 
+    };
 
 
 }

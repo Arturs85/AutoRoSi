@@ -18,8 +18,9 @@ DriveWheels = 145
     public enum SensorPacket {
         BumpsWheeldrops = 7,
         BatteryCharge = 25,
-BatteryCapacity =26
-
+BatteryCapacity =26,
+RightEncoderCounts = 43,
+LeftEncoderCounts = 44
     };
     public enum ButtonNumber
     {

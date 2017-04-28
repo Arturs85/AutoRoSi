@@ -55,6 +55,9 @@
     </Compile>
     <Compile Include="Roomba\RoombaComandExecutor.cs" />
     <Compile Include="Roomba\RoombaController.cs" />
+    <Compile Include="Roomba\Sensors\Encoders\EncoderController.cs" />
+    <Compile Include="Roomba\Sensors\Encoders\EncoderSensor.cs" />
+    <Compile Include="Roomba\Sensors\Encoders\Location.cs" />
     <Compile Include="Roomba\Sensors\SensorController.cs" />
     <Compile Include="Roomba\Sensors\SensorPacketQuerier.cs" />
     <Compile Include="Roomba\SerialPortController.cs" />

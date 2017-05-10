@@ -53,13 +53,14 @@ namespace RoombaServer
             }
             else if (remoteCommand.CommandType == RemoteCommandType.ResetLocation)
             {
-                //
-            }
+                roombaController.Sensors.EncoderController.ResetToZero();            }
             else if (remoteCommand.CommandType == RemoteCommandType.Wander)
             {
                 currentTask = new TaskWander(roombaController);
                 currentTask.Start();
             }
+
+
         }
         private void StopCurrentTask()
         {

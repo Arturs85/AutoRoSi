@@ -1,6 +1,6 @@
 using System;
 using Microsoft.SPOT;
-
+using RoombaServer.Roomba.Sensors.Encoders;
 namespace RoombaServer.Roomba.Sensors
 {
   public  class SensorController
@@ -20,10 +20,15 @@ namespace RoombaServer.Roomba.Sensors
             get;
             private set;
         }
+        public EncoderController EncoderController {
+            get;
+            private set;
+        }
+
         public SensorController(RoombaController roombaController)
         {
             this.roombaController = roombaController;
-
+            this.EncoderController = new EncoderController(roombaController);
         }
         public void StartSensors()
         {
@@ -31,7 +36,7 @@ namespace RoombaServer.Roomba.Sensors
             roombaController.SubscribeToSensorPacket(SensorPacket.BatteryCapacity, 2, 1000, BatteryCapacityRecieved);
 
             roombaController.SubscribeToSensorPacket(SensorPacket.BumpsWheeldrops, 1, 20, BumpsWheeldropsRecieved);
-            
+            EncoderController.Start();
         }
 
         private void BumpsWheeldropsRecieved(short sensorData)

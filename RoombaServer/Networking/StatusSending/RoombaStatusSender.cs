@@ -26,14 +26,9 @@ namespace RoombaServer.Networking.StatusSending
         private void DoWork()
         {
 
-            Socket socket = new Socket(AddressFamily.InterNetwork,
-                               SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint routerEndPoint = new IPEndPoint(
-             new IPAddress(new byte[] { 192, 168, 17, 1 }), // ?? ???????
-                                   80); // http ????
-            IPEndPoint endPoint = new IPEndPoint(
-                  new IPAddress(new byte[] { 192, 168, 17, 141 }), // ?? ???????
-                                        666); 
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            IPEndPoint routerEndPoint = new IPEndPoint( new IPAddress(new byte[] { 192, 168, 17, 1 }),80); 
+            IPEndPoint endPoint = new IPEndPoint( new IPAddress(new byte[] { 192, 168, 17, 141 }), 666); 
             byte[] data = new byte[(4 * 5) + 1];
             int i = 0;
 
@@ -41,6 +36,11 @@ namespace RoombaServer.Networking.StatusSending
             {
                 Array.Clear(data, 0, data.Length);
                 Common.GetByteArrayFromInt((int)sensors.BatteryPercentage, data, 16);
+                Common.GetByteArrayFromInt((int)sensors.EncoderController.RobotLocation.X,data,0);
+                Common.GetByteArrayFromInt((int)sensors.EncoderController.RobotLocation.Y, data, 4);
+                Common.GetByteArrayFromInt((int)sensors.EncoderController.RobotLocation.HeadingDegrees, data, 8);
+                Common.GetByteArrayFromInt((int)sensors.EncoderController.RobotLocation.TotalDistanceFromStartPoint, data, 12);
+
                 data[20] = sensors.BumpsWheeldropsData;
                 socket.SendTo(data, endPoint);
                 if (i++ % 100 == 0)

@@ -3,11 +3,11 @@ using Microsoft.SPOT;
 
 namespace RoombaServer.Roomba.Sensors.Encoders
 {
-    class Location
+  public  class Location
     {
 public double HeadingDegrees { get; set; }
 public double HeadingRadians { get; set; }
-public double TotalDistanceFromStartPoint { get; }
+public double TotalDistanceFromStartPoint { get; set; }
 public double X { get; set; }
 public double Y { get; set; }
 

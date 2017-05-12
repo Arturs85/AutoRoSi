@@ -13,6 +13,9 @@ namespace RoombaServer.Roomba
         {
             serialPort = new SerialPort(portName, baudRate);
             Open();
+            this.serialPort.DiscardInBuffer();
+            this.serialPort.DiscardOutBuffer();
+            this.serialPort.Flush();
         }
         private void Open()
         {

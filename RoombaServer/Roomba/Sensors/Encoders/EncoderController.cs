@@ -62,7 +62,7 @@ namespace RoombaServer.Roomba.Sensors.Encoders
 
             double deltaNDistance = (RightEncoderLastDeltaMillimeters + LeftEncoderLastDeltaMillimeters) / 2;
             RobotLocation.TotalDistanceFromStartPoint += deltaNDistance;
-
+            //simplified formula
             RobotLocation.X += deltaNDistance * Common.Cos(RobotLocation.HeadingRadians + deltaNHeading / 2); //parametrs radianos?
             RobotLocation.Y += deltaNDistance * Common.Sin(RobotLocation.HeadingRadians + deltaNHeading / 2); //parametrs radianos?
 

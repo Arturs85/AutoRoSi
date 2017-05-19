@@ -13,8 +13,8 @@ namespace RoombaServer.Roomba.Sensors.Encoders
             RobotLocation = new Location();
         }
 
-        double DISTANCE_BETWEEN_WHEELS=300; // ???  
-        double ENCODERS_PER_MILLIMETER = 2.526; //???
+        double DISTANCE_BETWEEN_WHEELS=235; // ???  
+        double ENCODERS_PER_MILLIMETER = 2.245; //???
         bool firstMeasurement = true;
         bool leftEncoderDataRecieved = false;
         bool rightEncoderDataRecieved = false;
@@ -52,9 +52,9 @@ namespace RoombaServer.Roomba.Sensors.Encoders
             leftEncoderLastValue = LeftEncoder.Value;
             LeftEncoderLastDeltaMillimeters = LeftEncoderLastDelta / ENCODERS_PER_MILLIMETER;
 
-            RightEncoderLastDelta = RightEncoder.Value - leftEncoderLastValue;
-            leftEncoderLastValue = LeftEncoder.Value;
-            LeftEncoderLastDeltaMillimeters = LeftEncoderLastDelta / ENCODERS_PER_MILLIMETER;
+            RightEncoderLastDelta = RightEncoder.Value - rightEncoderLastValue;
+            rightEncoderLastValue = RightEncoder.Value;
+            RightEncoderLastDeltaMillimeters = RightEncoderLastDelta / ENCODERS_PER_MILLIMETER;
 
             double deltaNHeading = (RightEncoderLastDeltaMillimeters - LeftEncoderLastDeltaMillimeters) / DISTANCE_BETWEEN_WHEELS;
             RobotLocation.HeadingRadians += deltaNHeading;
@@ -73,14 +73,14 @@ namespace RoombaServer.Roomba.Sensors.Encoders
 
         void RightEncoderCountsRecieved (short rightEncoderCounts)
         {
-            RightEncoder.UpdateData(rightEncoderCounts);
+            RightEncoder.UpdateData((ushort)rightEncoderCounts);
             rightEncoderDataRecieved = true;
             if (leftEncoderDataRecieved)
                 PerformCalculations();
         }
   void LeftEncoderCountsRecieved (short leftEncoderCounts)
         {
-            LeftEncoder.UpdateData(leftEncoderCounts);
+            LeftEncoder.UpdateData((ushort)leftEncoderCounts);
             leftEncoderDataRecieved = true;
             if (rightEncoderDataRecieved)
                 PerformCalculations();

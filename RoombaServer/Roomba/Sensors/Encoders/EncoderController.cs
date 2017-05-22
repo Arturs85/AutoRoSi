@@ -13,8 +13,8 @@ namespace RoombaServer.Roomba.Sensors.Encoders
             RobotLocation = new Location();
         }
 
-        double DISTANCE_BETWEEN_WHEELS=235; // ???  
-        double ENCODERS_PER_MILLIMETER = 2.245; //???
+        double DISTANCE_BETWEEN_WHEELS=235; // ok  
+        double ENCODERS_PER_MILLIMETER = 2.245; // ok
         bool firstMeasurement = true;
         bool leftEncoderDataRecieved = false;
         bool rightEncoderDataRecieved = false;
@@ -62,7 +62,7 @@ namespace RoombaServer.Roomba.Sensors.Encoders
 
             double deltaNDistance = (RightEncoderLastDeltaMillimeters + LeftEncoderLastDeltaMillimeters) / 2;
             RobotLocation.TotalDistanceFromStartPoint += deltaNDistance;
-            //simplified formula
+            //simplified formula 
             RobotLocation.X += deltaNDistance * Common.Cos(RobotLocation.HeadingRadians + deltaNHeading / 2); //parametrs radianos?
             RobotLocation.Y += deltaNDistance * Common.Sin(RobotLocation.HeadingRadians + deltaNHeading / 2); //parametrs radianos?
 
